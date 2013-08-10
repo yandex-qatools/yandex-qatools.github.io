@@ -1,2 +1,4 @@
 name: Lanwen's blog
 pygments: true
+baseurl: /pages/lanwen
+permalink: /:month-:day-:year/:title.html
