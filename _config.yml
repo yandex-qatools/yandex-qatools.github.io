@@ -1,6 +1,6 @@
 title:            Lanwen's blog
 description:      Наука и техника'13
-logo:             site-logo.png
+#logo:             site-logo.png
 disqus_shortname: 
 #Comment out url when working locally to resolve base urls correctly
 url:              /pages/lanwen
@@ -8,13 +8,13 @@ baseurl: /pages/lanwen
 
 # Owner/author information
 owner:
-  name:           Your Name
-  avatar:         bio-photo.jpg
-  email:          you@email.com
+  name:           Merkushev Kirill
+  avatar:         http://www.gravatar.com/avatar/a9246eff89743db6fd53b9d83e3b9aef.png
+  email:          lanwen+blog@yandex.ru
   # Social networking links used in footer. Update and remove as you like.
-  twitter:        
+  twitter: delnariel
   facebook:       
-  github:         
+  github: lanwen
   stackexchange:  
   linkedin:       
   instagram:      
@@ -32,18 +32,18 @@ bing_verify:
 # Links to include in top navigation
 # For external links add external: true
 links:
-  - title: About
+  - title: Обо мне
     url: /about
-  - title: Articles
+  - title: Статьи
     url: /articles
-  - title: Theme Setup
-    url: /theme-setup
-  - title: Made Mistakes
-    url: http://mademistakes.com
-    external: true
+#  - title: Theme Setup
+#    url: /theme-setup
+#  - title: Made Mistakes
+#    url: http://mademistakes.com
+#    external: true
 
 # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-timezone:    America/New_York
+timezone:    Europe/Moscow
 future:      true
 pygments:    true
 markdown:    kramdown
