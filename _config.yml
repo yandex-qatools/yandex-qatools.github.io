@@ -31,15 +31,10 @@ bing_verify:
 # Links to include in top navigation
 # For external links add external: true
 links:
-  - title: Обо мне
+  - title: Я
     url: /about
   - title: Статьи
     url: /articles
-#  - title: Theme Setup
-#    url: /theme-setup
-#  - title: Made Mistakes
-#    url: http://mademistakes.com
-#    external: true
 
 # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 timezone:    Europe/Moscow
