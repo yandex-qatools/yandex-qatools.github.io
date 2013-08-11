@@ -9,7 +9,7 @@ baseurl: /pages/lanwen
 # Owner/author information
 owner:
   name:           Merkushev Kirill
-  avatar:         http://www.gravatar.com/avatar/a9246eff89743db6fd53b9d83e3b9aef.png
+  avatar:         http://www.gravatar.com/avatar/a9246eff89743db6fd53b9d83e3b9aef?s=200
   email:          lanwen+blog@yandex.ru
   # Social networking links used in footer. Update and remove as you like.
   twitter: delnariel
@@ -22,7 +22,6 @@ owner:
   tumblr:         
   # For Google Authorship https://plus.google.com/authorship
   google_plus:    
-
 # Analytics and webmaster tools stuff goes here
 google_analytics:   
 google_verify:      
