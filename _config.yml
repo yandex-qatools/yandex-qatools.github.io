@@ -1,20 +1,20 @@
-title:            Lanwen's blog
+title:            QATools
 description:      Наука и техника'13
 #logo:             site-logo.png
 disqus_shortname: 
 #Comment out url when working locally to resolve base urls correctly
-url:              /pages/lanwen
-baseurl: /pages/lanwen
+url:              http://qatools.ru
+baseurl: /
 
 # Owner/author information
 owner:
-  name:           Merkushev Kirill
-  avatar:         http://www.gravatar.com/avatar/a9246eff89743db6fd53b9d83e3b9aef?s=200
+  name:           Yandex-QAtools
+  avatar:         https://secure.gravatar.com/avatar/d23e8fc3ea09ca898f340728eaf30e98?s=200&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-org-420.png
   email:          lanwen+blog@yandex.ru
   # Social networking links used in footer. Update and remove as you like.
-  twitter: delnariel
+  twitter: qatools
   facebook:       
-  github: lanwen
+  github: yandex-qatools
   stackexchange:  
   linkedin:       
   instagram:      
@@ -31,7 +31,7 @@ bing_verify:
 # Links to include in top navigation
 # For external links add external: true
 links:
-  - title: Я
+  - title: QATools
     url: /about
   - title: Статьи
     url: /articles
