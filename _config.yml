@@ -3,7 +3,7 @@ description:      Наука и техника'13
 #logo:             site-logo.png
 disqus_shortname: 
 #Comment out url when working locally to resolve base urls correctly
-url:              http://qatools.ru
+url:              /
 baseurl: /
 
 # Owner/author information
