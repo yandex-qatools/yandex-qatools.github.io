@@ -3,6 +3,7 @@ layout: post
 title:  "Thucydides Fixture Service"
 date:   2013-08-11 22:22:04
 tags: [thucydides]
+comments: true
 published: true
 ---
 
