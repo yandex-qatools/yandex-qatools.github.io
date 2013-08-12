@@ -87,6 +87,17 @@ public void setup() throws FixtureException {
 }
 {% endhighlight %}
 
+и после этого подключить прокси:
+
+{% highlight java %}
+@Override
+public void void addCapabilitiesTo(DesiredCapabilities capabilities) {
+    ...
+    proxy = getServer().seleniumProxy();
+    capabilities.setCapability(CapabilityType.PROXY, proxy);
+}
+{% endhighlight %}
+
 * Создаем в classpath папку `META-INF`, а в ней `services` с файлом `net.thucydides.core.fixtureservices.FixtureService`
 
 {% highlight bash %}
