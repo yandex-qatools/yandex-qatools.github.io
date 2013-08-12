@@ -1,3 +1,3 @@
-yandex-qatools.github.io
+http://blog.qatools.ru/
 ========================
-A repo for blog.
+This is the repo for blog http://blog.qatools.ru/

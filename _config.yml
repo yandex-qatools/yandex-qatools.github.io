@@ -1,16 +1,16 @@
 title:            QATools
 description:      Тестоблог
-#logo:             site-logo.png
-disqus_shortname: 
+#logo:            site-logo.png
+disqus_shortname: qa-tools-blog
 #Comment out url when working locally to resolve base urls correctly
-url:
+url: http://blog.qatools.ru
 baseurl: /
 
 # Owner/author information
 owner:
   name:           Yandex-QAtools
   avatar:         https://secure.gravatar.com/avatar/d23e8fc3ea09ca898f340728eaf30e98?s=200&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-org-420.png
-  email:          lanwen+blog@yandex.ru
+  email:          qa-tools@yandex-team.ru
   # Social networking links used in footer. Update and remove as you like.
   twitter: qatools
   facebook:       
@@ -32,13 +32,14 @@ bing_verify:
 # For external links add external: true
 links:
   - title: QATools
-    url: /about
-  - title: Статьи
+    url: http://qatools.ru
+    external: true
+  - title: Articles
     url: /articles
 
 # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 timezone:    Europe/Moscow
-future:      true
+future:      false
 pygments:    true
 markdown:    kramdown
 
