@@ -5,6 +5,7 @@ date:   2013-08-11 22:22:04
 author:
     name: Merkushev Kirill
     email: lanwen+blog@yandex.ru
+    gravatar: 6ee51971263d8c9a1e70e1dac7418d36
 categories: [thucydides]
 tags: [thucydides]
 comments: true

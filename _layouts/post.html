@@ -21,7 +21,7 @@
         <h1 class="entry-title" itemprop="name">{% if page.headline %}{{ page.headline }}{% else %}{{ page.title }}{% endif %}</h1>
       </header>
       <footer class="entry-meta">
-{% capture gravatar %}{% if page.author.email %}{{ page.author.email | to_gravatar }}?s=200&d={{ site.owner.avatar | cgi_escape }}{% else %}{{ site.owner.avatar }}{% endif %}{% endcapture %}
+{% capture gravatar %}http://www.gravatar.com/avatar/{{ page.author.gravatar }}?s=200&d={{ site.owner.avatar | cgi_escape }}{% endcapture %}
 {% capture name %}{% if page.author.name %}{{ page.author.name }} {% else %} {{ site.owner.name }}{% endif %}{% endcapture %}
           <img src="{{gravatar}}" alt="{{name}}" class="author-photo">
         <span class="author vcard" itemprop="author" itemscope itemtype="http://schema.org/Person">By <span itemprop="name" class="fn"><a href="{{ site.url }}" title="{{ site.owner.name }}" itemprop="url">{{ name }}</a></span></span>
