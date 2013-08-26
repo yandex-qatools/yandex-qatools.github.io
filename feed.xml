@@ -25,9 +25,9 @@ layout: none
   {% else %}<published>{{ post.date | date_to_xmlschema }}</published>
   <updated>{{ post.date | date_to_xmlschema }}</updated>{% endif %}
   <author>
-    <name>{{ site.owner.name }}</name>
+    <name>{{ post.author.name }}</name>
     <uri>{{ site.url }}</uri>
-    <email>{{ site.owner.email }}</email>
+    <email>{{ post.author.email }}</email>
   </author>
   <content type="html">{{ post.content | xml_escape }}
   &lt;p&gt;&lt;a href=&quot;{{ site.url }}{{ post.url }}&quot;&gt;{{ post.title }}&lt;/a&gt; was originally published by {{ site.owner.name }} at &lt;a href=&quot;{{ site.url }}&quot;&gt;{{ site.title }}&lt;/a&gt; on {{ post.date | date: "%B %d, %Y" }}.&lt;/p&gt;</content>
