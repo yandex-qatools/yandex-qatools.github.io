@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Smart commits"
-date:   2013-08-15 22:22:04
+date:   2013-08-20 20:14:04 +0400
 author:
     name: Merkushev Kirill
     email: lanwen+blog@yandex.ru

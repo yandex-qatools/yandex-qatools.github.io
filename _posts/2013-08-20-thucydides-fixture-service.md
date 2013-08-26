@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Thucydides Fixture Service"
-date:   2013-08-11 22:22:04
+date:   2013-08-25 22:22:22 +0400
 author:
     name: Merkushev Kirill
     email: lanwen+blog@yandex.ru

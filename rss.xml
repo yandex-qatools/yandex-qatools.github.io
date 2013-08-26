@@ -1,0 +1,25 @@
+---
+layout: nil
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>{{site.title}}</title>
+        <link>{{site.url}}</link>
+        <atom:link href="http://{{site.url}}/rss.xml" rel="self" type="application/rss+xml" />
+        <description>{{site.description}}</description>
+        <language>en-us</language>
+        <pubDate>{{ site.time | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
+        <lastBuildDate>{{ site.time | date: "%a, %d %b %Y %H:%M:%S %z" }}</lastBuildDate>
+        {% for post in site.posts %}
+        <item>
+            <title>{{ post.title }}</title>
+            <link>{{site.url}}{{ post.url }}</link>
+            <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
+            <author>{{post.author.email}} ({{post.author.name}})</author>
+            <guid>{{site.url}}{{ post.id }}</guid>
+            <description>{{ post.content | xml_escape }}</description>
+        </item>
+        {% endfor %}
+    </channel>
+</rss>
