@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Store test accounts property-way"
-date:   2013-11-18 22:22:22 +0400
+date:   2013-11-17 16:22:22 +0400
 author:
     name: Merkushev Kirill
     email: lanwen+blog@yandex.ru
