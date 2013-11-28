@@ -1,0 +1,91 @@
+---
+layout: post
+title:  "Jenkins: build, install, test, notify: Смешиваем"
+date:   2013-11-28 00:22:22 +0400
+author:
+    name: Merkushev Kirill
+    email: lanwen+blog@yandex.ru
+    gravatar: 6ee51971263d8c9a1e70e1dac7418d36
+categories: [jenkins]
+tags: [ci, jenkins, jira]
+comments: true
+published: true
+---
+
+# ...но не взбалтываем
+
+
+
+Вся цепочка на данном этапе самостоятельно выполняться не начнет. Пока это лишь отдельный набор джоб. Тут в дело
+вступает [Parameterized Trigger Plugin][14]. Именно он - тот соус, что заставляет работать всю нашу систему как единое целое.
+
+То как триггерится другая задача гибко настраивается. Я использовал в основном три вида передаваемых параметров.
+Всегда - **Current Build Parameters**, чтобы насквозь из первой джобы пробрасывать тикеты Jira.
+И **Predefined parameters**, либо **Parameters from properties file**. Предопределенные
+параметры сами выглядят как проперти-файл, а параметры из проперти файла для тех случаев,
+когда тот создавался, например, из питоновского скрипта - для передачи дальше.
+
+> **Обратите внимание** - переменные, которые были заинжекчены при помощи *EnvInject Plugin* не передаются
+вместе с *Current Build Parameters*. Так же, переменные билда перетираются переменными из файла и предопределенными
+параметрами. (Хотя это может зависеть от порядка, определенного в триггере - тут стоит потестить).
+
+Соответственно дополнительно выбраны условия - триггерить если сборка успешная, и не триггерить, если указанный файл
+пропертей отстутствует.
+
+![img-build-plugin][build-img]
+
+
+### Недосолено
+
+С этим плагином тоже вышло не очень круто с кириллицей - на момент версии *2.21* - плагин использует *java 1.5*, в
+которой проперти читаются только в кодировке *Latin 1*. Что подразумевает под собой юникод-эскейпинг всего, что не
+латинница. Соответственно простая кириллица превращается в нечто нечитаемое. Пока ждем принятия [пулл реквеста][15],
+где я попытался это исправить.
+
+
+## Варим, подаем к столу
+
+Помимо оптимизации самих джоб на предмет собственных плагинов, у нас еще широкие планы отдать
+в группу установки-запуска тестов еще несколько машин, чтобы полностью освободить наших
+тестировщиков от установки пакета на стенд вручную и запуска тестов. Чтобы только отчеты смотреть.
+
+Хочу добавить, что это реально удобно. И действительно может работать. На приготовление
+такого супа было потрачено около двух полных дней с учетом написания всех скриптов для
+поддержки работы, и ловли мелких багов, а так же формирования вида комментариев для Jira. Экономит же это примерно по
+полчаса каждому разработчику на каждом пакете. Несложно посчитать как скоро потраченное время окупится. Притом что
+готовится это проще пиццы на голодный желудок :)
+
+## Список использованных плагинов
+
+* [Nested View Plugin][2] - внешний вид (папками)
+* [Description Setter Plugin][4] - для установки описания к билду
+* [Build Name Setter Plugin][5] - для установки имени билда
+* [Token Macro Plugin][6] - для удобных токенов, используется как вспомогательный
+* [Publish Over SSH Plugin][7] - для заливки файлов по ssh
+* [JIRA Plugin][8] - для работы с jira
+* [EnvInject Plugin][10] - для оперирования переменными окружения из скриптов
+* [Parameterized Trigger Plugin][14] - для старта параметризованных джоб
+
+
+> #### Статьи из этой серии:
+>* [Прежде чем готовить кастрюлю][prestart] - вводная
+>* [Рубим скорлупу][shell] - билд пакета, установка на машину
+>* [Чистим змей][snakes] - быстрое прототипирование и python
+>* [Варим кофе][coffee] - есть место и для java
+
+  [2]: https://wiki.jenkins-ci.org/display/JENKINS/Nested+View+Plugin
+  [4]: https://wiki.jenkins-ci.org/display/JENKINS/Description+Setter+Plugin
+  [5]: https://wiki.jenkins-ci.org/display/JENKINS/Build+Name+Setter+Plugin
+  [6]: https://wiki.jenkins-ci.org/display/JENKINS/Token+Macro+Plugin
+  [7]: https://wiki.jenkins-ci.org/display/JENKINS/Publish+Over+SSH+Plugin
+  [8]: https://wiki.jenkins-ci.org/display/JENKINS/JIRA+Plugin
+  [10]: https://wiki.jenkins-ci.org/display/JENKINS/EnvInject+Plugin
+  [14]: https://wiki.jenkins-ci.org/display/JENKINS/Parameterized+Trigger+Plugin
+  [15]: https://github.com/jenkinsci/parameterized-trigger-plugin/pull/53
+  [build-img]: http://img-fotki.yandex.ru/get/9797/27441075.0/0_ecb52_9ca1e8b4_L.png
+  [prestart]: {% post_url 2013-11-28-jenkins-jira-build-chain-0-prestart %}
+  [shell]: {% post_url 2013-11-28-jenkins-jira-build-chain-1-shell %}
+  [snakes]: {% post_url 2013-11-28-jenkins-jira-build-chain-2-snake %}
+  [coffee]: {% post_url 2013-11-28-jenkins-jira-build-chain-3-coffee %}
+  [mix]: {% post_url 2013-11-28-jenkins-jira-build-chain-4-mix %}
+

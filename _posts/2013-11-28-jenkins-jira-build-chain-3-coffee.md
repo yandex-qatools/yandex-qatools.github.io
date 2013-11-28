@@ -1,0 +1,101 @@
+---
+layout: post
+title:  "Jenkins: notify: Варим кофе"
+date:   2013-11-28 00:21:22 +0400
+author:
+    name: Merkushev Kirill
+    email: lanwen+blog@yandex.ru
+    gravatar: 6ee51971263d8c9a1e70e1dac7418d36
+categories: [jenkins]
+tags: [ci, jenkins, jira]
+comments: true
+published: true
+---
+
+# ...или где тут все-таки java?
+
+
+
+Это пожалуй самая интересная часть из всего что пришлось делать. Ведь
+*сборка-установка-запуск тестов* это обычное дело. Хочется же большего - уведомляшки. Чтобы
+нажал на кнопку сборки - и ушел в код. А очнулся только когда на почту нотификация от трекера
+упадет, мол - готово, хозяин. 
+
+Как трекер мы используем Jira, и под него есть даже [специальный плагин][8], который мне однажды
+пришлось слегка допиливать, чтобы он умел комментировать без изменения воркфлоу. Кошелев
+Артем уже [писал об этом][9]. В джобе добавилось лишь преобразование привычного
+разработчикам перечисления тикетов через пробел в формат JQL при помощи *awk* и *sed*:
+
+{% highlight bash %}
+#Преобразует 'TICKET-1 TICKET-2' в 'id in (TICKET-1, TICKET-2)'
+TASK=$(echo ${jiraTask} | sed -e 's/ /, /g' | awk '{ print "TASK_JQL=id in (" $0 ")" }')
+echo $TASK >> jira.properties
+{% endhighlight %}
+
+И дальнейшего импорта этой переменной в переменные окружения при помощи [EnvInject Plugin][10] (по его настройке есть
+даже картинки на его страничке).
+
+Эта джоба проста и занимается только тем, что отправляет в трекер то, о чём другие ее
+попросили. Т.е. формируем готовый комментарий мы в исходной задаче, а эту лишь дергаем,
+просто прокидывая то что нужно.
+
+![img-jira-plugin][img-jira]
+
+Ну и не забываем выставлять дескрипшен, перечисляя таски, в которых отписались.
+
+Аналогичным же образом, можно добавить уведомление по Jabber протоколу - [Jabber Plugin][11] +
+[Instant Messaging Plugin][12] (они работают только в паре). Правда беглый взгляд на jabber-плагин показал, что тот
+умеет отправлять только билд-статусы, но не произвольный текст. Но это же опенсорс, и нужное легко реализовать! Тем
+более в уже готовом плагине.
+
+
+>#### Хозяйке на заметку:
+> Открою маленький секрет - писать свой плагин, чтобы использовать java в нужном месте необязательно. Есть отличное
+средство: **maven**! А точнее [Exec Maven Plugin][13]. Код пишется на java в *main* функции.
+Коммитится в git (вы же не используете svn, правда?). Далее в джобе просто чекаутим репо, и
+делаем цель Maven верхнего уровня - `clean compile exec:java`. Например так, я сделал сравнивалку пакетов на разных
+машинах с прямым комментированием в Jira, переводом тикета на нужного человека и добавлением в CC - добавлять такое в
+плагин показалось гораздо дольше и сложнее, чем сделать узкоспециальную задачу прям так. Здесь кстати я снова столкнулся с
+проблемами с кириллицей - все переменные окружения передаются мавену через `-Dvar=val`. Вот если вместо val - кириллица, то
+дженкинс передает ее вопросами. Видимо еще один баг в плагине для мавена. Воркэраунд для этого - писать в properties, а потом
+в программе уже вычитывать оттуда. Тут будет полезной [библиотека][props] и ее возможности задать файл для чтения динамически.
+
+> Кстати настройки exec-плагина для подобного запуска:
+{% highlight xml %}
+    <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>java</goal>
+                </goals>
+            </execution>
+        </executions>
+        <configuration>
+            <mainClass>ru.yandex.jenkins.MainExec</mainClass>
+        </configuration>
+    </plugin>
+{% endhighlight %}
+
+
+> #### Статьи из этой серии:
+>* [Прежде чем готовить кастрюлю][prestart] - вводная
+>* [Рубим скорлупу][shell] - билд пакета, установка на машину
+>* [Чистим змей][snakes] - быстрое прототипирование и python
+>* [Смешиваем][mix] - как все это превратить в цепочку
+
+  [8]: https://wiki.jenkins-ci.org/display/JENKINS/JIRA+Plugin
+  [9]: http://artkoshelev.github.io/posts/jira-jenkins-plugin/
+  [10]: https://wiki.jenkins-ci.org/display/JENKINS/EnvInject+Plugin
+  [11]: https://wiki.jenkins-ci.org/display/JENKINS/Jabber+Plugin
+  [12]: https://wiki.jenkins-ci.org/display/JENKINS/Instant+Messaging+Plugin
+  [13]: http://mojo.codehaus.org/exec-maven-plugin/
+  [img-jira]: http://img-fotki.yandex.ru/get/9493/27441075.0/0_ecb23_e3d2a45_L.png
+  [props]: https://github.com/yandex-qatools/properties
+  [prestart]: {% post_url 2013-11-28-jenkins-jira-build-chain-0-prestart %}
+  [shell]: {% post_url 2013-11-28-jenkins-jira-build-chain-1-shell %}
+  [snakes]: {% post_url 2013-11-28-jenkins-jira-build-chain-2-snake %}
+  [coffee]: {% post_url 2013-11-28-jenkins-jira-build-chain-3-coffee %}
+  [mix]: {% post_url 2013-11-28-jenkins-jira-build-chain-4-mix %}
