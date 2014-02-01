@@ -68,10 +68,10 @@ published: true
 
 
 > #### Статьи из этой серии:
->* [Прежде чем готовить кастрюлю][prestart] - вводная
->* [Рубим скорлупу][shell] - билд пакета, установка на машину
->* [Чистим змей][snakes] - быстрое прототипирование и python
->* [Варим кофе][coffee] - есть место и для java
+>* [Прежде чем готовить кастрюлю] - вводная
+>* [Рубим скорлупу] - билд пакета, установка на машину
+>* [Чистим змей] - быстрое прототипирование и python
+>* [Варим кофе] - есть место и для java
 
   [2]: https://wiki.jenkins-ci.org/display/JENKINS/Nested+View+Plugin
   [4]: https://wiki.jenkins-ci.org/display/JENKINS/Description+Setter+Plugin
@@ -83,9 +83,4 @@ published: true
   [14]: https://wiki.jenkins-ci.org/display/JENKINS/Parameterized+Trigger+Plugin
   [15]: https://github.com/jenkinsci/parameterized-trigger-plugin/pull/53
   [build-img]: http://img-fotki.yandex.ru/get/9797/27441075.0/0_ecb52_9ca1e8b4_L.png
-  [prestart]: {% post_url 2013-11-28-jenkins-jira-build-chain-0-prestart %}
-  [shell]: {% post_url 2013-11-28-jenkins-jira-build-chain-1-shell %}
-  [snakes]: {% post_url 2013-11-28-jenkins-jira-build-chain-2-snake %}
-  [coffee]: {% post_url 2013-11-28-jenkins-jira-build-chain-3-coffee %}
-  [mix]: {% post_url 2013-11-28-jenkins-jira-build-chain-4-mix %}
 

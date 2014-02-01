@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Jenkins: build, install, test, notify: Чеклист"
-date:   2013-11-28 00:18:22 +0400
+date:   2013-11-28 00:18:22+0400
 author:
     name: Merkushev Kirill
     email: lanwen+blog@yandex.ru
@@ -30,10 +30,10 @@ published: true
 описанием очевидных граблей и скрытых хинтов, которые помогут вам не оступиться и сэкономить чуточку времени.
 
 > #### Статьи из этой серии:
->* [Рубим скорлупу][shell] - билд пакета, установка на машину
->* [Чистим змей][snakes] - быстрое прототипирование и python
->* [Варим кофе][coffee] - есть место и для java
->* [Смешиваем][mix] - как все это превратить в цепочку
+>* [Рубим скорлупу] - билд пакета, установка на машину
+>* [Чистим змей] - быстрое прототипирование и python
+>* [Варим кофе] - есть место и для java
+>* [Смешиваем] - как все это превратить в цепочку
 
 ## Нам потребуется
 
@@ -114,11 +114,8 @@ run-tests
    #-----  jenkins  -----#
 {% endhighlight %}
 
+
   [1]: http://jenkins-ci.org/
   [2]: https://wiki.jenkins-ci.org/display/JENKINS/Nested+View+Plugin
   [3]: http://img-fotki.yandex.ru/get/9307/27441075.0/0_ebe23_7d26af5_orig
-  [prestart]: {% post_url 2013-11-28-jenkins-jira-build-chain-0-prestart %}
-  [shell]: {% post_url 2013-11-28-jenkins-jira-build-chain-1-shell %}
-  [snakes]: {% post_url 2013-11-28-jenkins-jira-build-chain-2-snake %}
-  [coffee]: {% post_url 2013-11-28-jenkins-jira-build-chain-3-coffee %}
-  [mix]: {% post_url 2013-11-28-jenkins-jira-build-chain-4-mix %}
+

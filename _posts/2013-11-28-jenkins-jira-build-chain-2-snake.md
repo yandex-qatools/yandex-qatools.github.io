@@ -91,13 +91,7 @@ def printWithFlush(str):
 важными частями джобы.
 
 > #### Статьи из этой серии:
->* [Прежде чем готовить кастрюлю][prestart] - вводная
->* [Рубим скорлупу][shell] - билд пакета, установка на машину
->* [Варим кофе][coffee] - есть место и для java
->* [Смешиваем][mix] - как все это превратить в цепочку
-
-  [prestart]: {% post_url 2013-11-28-jenkins-jira-build-chain-0-prestart %}
-  [shell]: {% post_url 2013-11-28-jenkins-jira-build-chain-1-shell %}
-  [snakes]: {% post_url 2013-11-28-jenkins-jira-build-chain-2-snake %}
-  [coffee]: {% post_url 2013-11-28-jenkins-jira-build-chain-3-coffee %}
-  [mix]: {% post_url 2013-11-28-jenkins-jira-build-chain-4-mix %}
+>* [Прежде чем готовить кастрюлю] - вводная
+>* [Рубим скорлупу] - билд пакета, установка на машину
+>* [Варим кофе] - есть место и для java
+>* [Смешиваем] - как все это превратить в цепочку

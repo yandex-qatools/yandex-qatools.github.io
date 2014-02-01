@@ -96,10 +96,10 @@ sudo yum list $METAPACKAGE_NAME 2>&1 | grep Error && (echo 'sleep'; sleep $WAIT_
 
 
 > #### Статьи из этой серии:
->* [Прежде чем готовить кастрюлю][prestart] - вводная
->* [Чистим змей][snakes] - быстрое прототипирование и python
->* [Варим кофе][coffee] - есть место и для java
->* [Смешиваем][mix] - как все это превратить в цепочку
+>* [Прежде чем готовить кастрюлю] - вводная
+>* [Чистим змей] - быстрое прототипирование и python
+>* [Варим кофе] - есть место и для java
+>* [Смешиваем] - как все это превратить в цепочку
 
   [img_ssh-transfer]: http://img-fotki.yandex.ru/get/9172/27441075.0/0_ecb13_ce9f5c6e_XL.png
   [4]: https://wiki.jenkins-ci.org/display/JENKINS/Description+Setter+Plugin
@@ -107,7 +107,3 @@ sudo yum list $METAPACKAGE_NAME 2>&1 | grep Error && (echo 'sleep'; sleep $WAIT_
   [6]: https://wiki.jenkins-ci.org/display/JENKINS/Token+Macro+Plugin
   [7]: https://wiki.jenkins-ci.org/display/JENKINS/Publish+Over+SSH+Plugin
   [8]: http://www.ansibleworks.com/docs/#the-basics
-  [prestart]: {% post_url 2013-11-28-jenkins-jira-build-chain-0-prestart %}
-  [snakes]: {% post_url 2013-11-28-jenkins-jira-build-chain-2-snake %}
-  [coffee]: {% post_url 2013-11-28-jenkins-jira-build-chain-3-coffee %}
-  [mix]: {% post_url 2013-11-28-jenkins-jira-build-chain-4-mix %}

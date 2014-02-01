@@ -81,10 +81,10 @@ echo $TASK >> jira.properties
 
 
 > #### Статьи из этой серии:
->* [Прежде чем готовить кастрюлю][prestart] - вводная
->* [Рубим скорлупу][shell] - билд пакета, установка на машину
->* [Чистим змей][snakes] - быстрое прототипирование и python
->* [Смешиваем][mix] - как все это превратить в цепочку
+>* [Прежде чем готовить кастрюлю] - вводная
+>* [Рубим скорлупу] - билд пакета, установка на машину
+>* [Чистим змей] - быстрое прототипирование и python
+>* [Смешиваем] - как все это превратить в цепочку
 
   [8]: https://wiki.jenkins-ci.org/display/JENKINS/JIRA+Plugin
   [9]: http://artkoshelev.github.io/posts/jira-jenkins-plugin/
@@ -94,8 +94,3 @@ echo $TASK >> jira.properties
   [13]: http://mojo.codehaus.org/exec-maven-plugin/
   [img-jira]: http://img-fotki.yandex.ru/get/9493/27441075.0/0_ecb23_e3d2a45_L.png
   [props]: https://github.com/yandex-qatools/properties
-  [prestart]: {% post_url 2013-11-28-jenkins-jira-build-chain-0-prestart %}
-  [shell]: {% post_url 2013-11-28-jenkins-jira-build-chain-1-shell %}
-  [snakes]: {% post_url 2013-11-28-jenkins-jira-build-chain-2-snake %}
-  [coffee]: {% post_url 2013-11-28-jenkins-jira-build-chain-3-coffee %}
-  [mix]: {% post_url 2013-11-28-jenkins-jira-build-chain-4-mix %}
