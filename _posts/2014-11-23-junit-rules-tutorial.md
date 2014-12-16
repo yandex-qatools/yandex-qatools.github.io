@@ -167,226 +167,227 @@ public class SimpleTest {
 Прежде чем начать писать свои собственные рулы следует познакомиться с уже существующими. Фреймворк предлагает несколько готовых рул с удобными методами, которые можно использовать "из коробки".
 Самой популярной из них, как мне кажется, является `org.junit.rules.ExternalResource`:
 
-* ExternalResource
+* **ExternalResource**
 
-Данную рулу предполагается использовать в тех случаях, когда подготовленные для тестирования данные нобходимо очистить (освободить) при любом исходе теста. Посмотрим как это реализовано:
+    Данную рулу предполагается использовать в тех случаях, когда подготовленные для тестирования данные нобходимо очистить (освободить) при любом исходе теста. Посмотрим как это реализовано:
 
-{% highlight java %}
-@Override
-public void evaluate() throws Throwable {
-    before();
-    try {
-        base.evaluate();
-    } finally {
-        after();
-    }
-}
-{% endhighlight %}
-
-Здесь выделим только метод evaluate, чтобы показать сходство с нашим предыдущим примером. Методы
-`before()` и `after()` предполагается реализовать самому. В них и нужно описать управление своими данными. 
-
-  * TemporaryFolder
-Рула `org.junit.rules.TemporaryFolder` является частным случаем ExternalResource, и позволяет создавать файлы и папки, которые гарантированно удалятся после завершения теста. Пример использования с сайта производителя:
-
-{% highlight java %}
-
-@Rule
-public TemporaryFolder folder = new TemporaryFolder();
-
-@Test
-public void testUsingTempFolder() throws IOException {
-    File createdFile = folder.newFile("myfile.txt");
-    File createdFolder = folder.newFolder("subfolder");
-    // ...
-}
-
-{% endhighlight %}
-
-* TestWatcher
-
-Следущая базовая Рула `org.junit.rules.TestWatcher` не менее популярна и призвана добавить немного свободы в наши тесты, так как она (здесь я не буду привдить её реализацию) предоставляет возможность переопределить следующие методы:
-
-> succeeded
-
-> failed
-
-> skipped
-
-> starting
-
-> finished
-
-По названиям методов можно догадаться, в какой момент они выполнятся, а именно: начало или конец теста, успешное или не успешное его завершение.
-
-TestWatcher отлично подходит для сбора информации о тесте, так как в каждый метод подаётся `org.junit.runner.Description`. При этом стоит быть осторожным с добавлением логики в эти методы, так как любое исключение, произошедшее внутри, будет обработано и напечатано только в конце теста:
-
-{% highlight java %}
-
-@Rule
-public TestWatcher watcher = new TestWatcher() {
-
+    {% highlight java %}
     @Override
-    protected void starting(Description description) {
-        System.out.println("starting");
-        throw new IllegalStateException();
+    public void evaluate() throws Throwable {
+        before();
+        try {
+            base.evaluate();
+        } finally {
+            after();
+        }
     }
+    {% endhighlight %}
 
-    @Override
-    protected void finished(Description description) {
-        System.out.println("finished");
+    Здесь выделим только метод evaluate, чтобы показать сходство с нашим предыдущим примером. Методы
+    `before()` и `after()` предполагается реализовать самому. В них и нужно описать управление своими данными. 
+
+- *TemporaryFolder*
+  
+    Рула `org.junit.rules.TemporaryFolder` является частным случаем ExternalResource, и позволяет создавать файлы и папки, которые гарантированно удалятся после завершения теста. Пример использования с сайта производителя:
+    
+    {% highlight java %}
+    
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
+    
+    @Test
+    public void testUsingTempFolder() throws IOException {
+        File createdFile = folder.newFile("myfile.txt");
+        File createdFolder = folder.newFolder("subfolder");
+        // ...
     }
-};
+    
+    {% endhighlight %}
 
-@Test
-public void test() {
-    System.out.println("test");
-}
+- **TestWatcher**
 
-{% endhighlight %}
+    Следущая базовая Рула `org.junit.rules.TestWatcher` не менее популярна и призвана добавить немного свободы в наши тесты, так как она (здесь я не буду привдить её реализацию) предоставляет возможность переопределить следующие методы:
 
-В результате получим такой вывод
-> starting
+    > succeeded
+    
+    > failed
+    
+    > skipped
+    
+    > starting
+    
+    > finished
 
-> test
+    По названиям методов можно догадаться, в какой момент они выполнятся, а именно: начало или конец теста, успешное или не успешное его завершение.
 
-> finished
+    TestWatcher отлично подходит для сбора информации о тесте, так как в каждый метод подаётся `org.junit.runner.Description`. При этом стоит быть осторожным с добавлением логики в эти методы, так как любое исключение, произошедшее внутри, будет обработано и напечатано только в конце теста:
 
-плюс сообщение об ошибке.
+    {% highlight java %}
+    
+    @Rule
+    public TestWatcher watcher = new TestWatcher() {
+    
+        @Override
+        protected void starting(Description description) {
+            System.out.println("starting");
+            throw new IllegalStateException();
+        }
+    
+        @Override
+        protected void finished(Description description) {
+            System.out.println("finished");
+        }
+    };
+    
+    @Test
+    public void test() {
+        System.out.println("test");
+    }
+    
+    {% endhighlight %}
 
-  * TestName
+    В результате получим такой вывод
+    > starting
+    
+    > test
+    
+    > finished
+    
+    плюс сообщение об ошибке.
+
+- *TestName*
   
-Простая для понимания Рула `org.junit.rules.TestName` является наследником TestWatcher и позволяет использовать имя метода внутри него самого: 
-
-{% highlight java %}
-private String name;
-
-@Override
-protected void starting(Description d) {
-    name = d.getMethodName();
-}
-
-public String getMethodName() {
-    return name;
-}
-
-{% endhighlight %}
-
-* Verifier
-
-Класс `org.junit.rules.Verifier` также как и ExternalResource является базовым классом, в котором предполагается самому реализвать лишь один метод `verify()`:
-
-{% highlight java %}
-
-@Override
-public void evaluate() throws Throwable {
-    base.evaluate();
-    verify();
-}
-
-{% endhighlight %}
-
-  * ErrorCollector 
-  
-В качестве примера использования Verifier рассмотрим рулу `org.junit.rules.ErrorCollector`, которая позволяет 
-"продолжить выполнение теста после первой ошибки". Использование этой рулы позволит, например, собрать все ошибки произошедшие в тесте в одном отчёте. Хотя при правильном формировнии тесткейсов (один тест - одна проверка) необходимости в такой руле нет. 
-
-{% highlight java %}
-
-@Rule
-public ErrorCollector collector= new ErrorCollector();
-
-@Test
-public void example() {
-    collector.checkThat("Должны совпадать", "1", is("3"));
-    collector.checkThat("Должны совпадать", "1", is("1"));
-    collector.checkThat("Должны совпадать", "1", is("2"));
-}
-
-{% endhighlight %}
-
-Метод `checkThat( ... )` является обёрткой для стандартной проверки `assertThat( ... )`, но в отличии от последнего, если проверка не прошла, не прерывает выполнение теста. Результатом такого кода будет отчёт, который содержит в себе ошибки первой и третьей проверки.
-
-* ExpectedException
-
-Проверка кода на предмет правильной работы в исключительных ситуациях является одной из важных задач в тестировании. В JUnit есть возможность проверить, что в процессе выполнения бросается нужное исключение:
-
-{% highlight java %}
-
-@Test(expected=NullPointerException.class)
-public void throwsNullPointerExceptionWithMessage() { ... }
-
-{% endhighlight %}
-
-Рула `org.junit.rules.ExpectedException` расширяет этот функционал и позволяет проверить не только класс бросаемого исключения, но и, например, его сообщение:
-
-{% highlight java %}
-
-@Rule
-public ExpectedException thrown = ExpectedException.none();
-
-@Test
-public void throwsNullPointerExceptionWithMessage() {
-    thrown.expect(NullPointerException.class);
-    thrown.expectMessage("happened?");
-    thrown.expectMessage(startsWith("What"));
-    throw new NullPointerException("What happened?");
-}
-
-{% endhighlight %}
-
-* RuleChain
-
-Если в тесте есть несколько рул, то вероятнее всего (на самом деле нет) они будут выполняться в том порядке, в котором встречаются в коде. В действительности, порядок, в котором они будут вполняться, зависит от реализации JVM.
-В случае, когда нужно вызвать несколько рул в строго определённом порядке на помощь приходит рула `org.junit.rules.RuleChain`, которая позволяет задать порядок выполнения:
-
-{% highlight java %}
-
-@Rule
-public TestRule chain= RuleChain
-                       .outerRule(new SimplePrintRule("outer rule"))
-                       .around(new SimplePrintRule("middle rule"))
-                       .around(new SimplePrintRule("inner rule"));
-
-@Test
-public void example() {
-    assertTrue(true);
-}
-
-public class SimplePrintRule implements TestRule {
+    Простая для понимания Рула `org.junit.rules.TestName` является наследником TestWatcher и позволяет использовать имя метода внутри него самого: 
+    
+    {% highlight java %}
     private String name;
-
-    public SimplePrintRule(String name) {
-        this.name = name;
-    }
-
+    
     @Override
-    public Statement apply(final Statement base, Description description) {
-        return new Statement() {
-            @Override
-            public void evaluate() throws Throwable {
-                System.out.println("starting " + name);
-                base.evaluate();
-                System.out.println("finished " + name);
-            }
-        };
+    protected void starting(Description d) {
+        name = d.getMethodName();
     }
-}
+    
+    public String getMethodName() {
+        return name;
+    }
+    
+    {% endhighlight %}
 
-{% endhighlight %}
+- **Verifier**
 
-В результате получим порядок:
-> starting outer rule
+    Класс `org.junit.rules.Verifier` также как и ExternalResource является базовым классом, в котором предполагается самому реализвать лишь один метод `verify()`:
+    
+    {% highlight java %}
+    
+    @Override
+    public void evaluate() throws Throwable {
+        base.evaluate();
+        verify();
+    }
+    
+    {% endhighlight %}
 
-> starting middle rule
+- *ErrorCollector*
+  
+    В качестве примера использования Verifier рассмотрим рулу `org.junit.rules.ErrorCollector`, которая позволяет 
+    "продолжить выполнение теста после первой ошибки". Использование этой рулы позволит, например, собрать все ошибки произошедшие в тесте в одном отчёте. Хотя при правильном формировнии тесткейсов (один тест - одна проверка) необходимости в такой руле нет. 
+    
+    {% highlight java %}
+    
+    @Rule
+    public ErrorCollector collector= new ErrorCollector();
+    
+    @Test
+    public void example() {
+        collector.checkThat("Должны совпадать", "1", is("3"));
+        collector.checkThat("Должны совпадать", "1", is("1"));
+        collector.checkThat("Должны совпадать", "1", is("2"));
+    }
+    
+    {% endhighlight %}
 
-> starting inner rule
+    Метод `checkThat( ... )` является обёрткой для стандартной проверки `assertThat( ... )`, но в отличии от последнего, если проверка не прошла, не прерывает выполнение теста. Результатом такого кода будет отчёт, который содержит в себе ошибки первой и третьей проверки.
 
-> finished inner rule
+- **ExpectedException**
 
-> finished middle rule
+    Проверка кода на предмет правильной работы в исключительных ситуациях является одной из важных задач в тестировании. В JUnit есть возможность проверить, что в процессе выполнения бросается нужное исключение:
+    
+    {% highlight java %}
+    
+    @Test(expected=NullPointerException.class)
+    public void throwsNullPointerExceptionWithMessage() { ... }
+    
+    {% endhighlight %}
+    
+    Рула `org.junit.rules.ExpectedException` расширяет этот функционал и позволяет проверить не только класс бросаемого исключения, но и, например, его сообщение:
+    
+    {% highlight java %}
+    
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+    
+    @Test
+    public void throwsNullPointerExceptionWithMessage() {
+        thrown.expect(NullPointerException.class);
+        thrown.expectMessage("happened?");
+        thrown.expectMessage(startsWith("What"));
+        throw new NullPointerException("What happened?");
+    }
+    
+    {% endhighlight %}
 
-> finished outer rule
+- **RuleChain**
+
+    Если в тесте есть несколько рул, то вероятнее всего (на самом деле нет) они будут выполняться в том порядке, в котором встречаются в коде. В действительности, порядок, в котором они будут вполняться, зависит от реализации JVM.
+    В случае, когда нужно вызвать несколько рул в строго определённом порядке на помощь приходит рула `org.junit.rules.RuleChain`, которая позволяет задать порядок выполнения:
+    
+    {% highlight java %}
+    
+    @Rule
+    public TestRule chain= RuleChain
+                           .outerRule(new SimplePrintRule("outer rule"))
+                           .around(new SimplePrintRule("middle rule"))
+                           .around(new SimplePrintRule("inner rule"));
+    
+    @Test
+    public void example() {
+        assertTrue(true);
+    }
+    
+    public class SimplePrintRule implements TestRule {
+        private String name;
+    
+        public SimplePrintRule(String name) {
+            this.name = name;
+        }
+    
+        @Override
+        public Statement apply(final Statement base, Description description) {
+            return new Statement() {
+                @Override
+                public void evaluate() throws Throwable {
+                    System.out.println("starting " + name);
+                    base.evaluate();
+                    System.out.println("finished " + name);
+                }
+            };
+        }
+    }
+    
+    {% endhighlight %}
+
+    В результате получим порядок:
+    > starting outer rule
+    
+    > starting middle rule
+    
+    > starting inner rule
+    
+    > finished inner rule
+    
+    > finished middle rule
+    
+    > finished outer rule
 
 
 Подробней про Рулы можно узнать из репозитория проекта на гитхабе https://github.com/junit-team/junit
