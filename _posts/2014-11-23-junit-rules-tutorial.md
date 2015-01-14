@@ -11,7 +11,7 @@ comments: true
 published: true
 ---
 
-## JUnit
+# JUnit
 
 С фрэймворком модульного тестирования [JUnit](http://junit.org/), кажется, знакомы все. 
 Как видно из его описания, он направлен на создание "повторяемых" (repeatable) тестов. Что это значит?
@@ -54,20 +54,18 @@ public class SimpleTest {
     }
 }
 
-{% endhighlight %}
+{% endhighlight %} 
 
 Результат выполнения будет следующим:
-> before  
 
-> test  
-
-> after  
-
-> before  
-
-> test2  
-
-> after
+{% highlight java %}
+before
+test
+after
+before
+test2 
+after
+{% endhighlight %} 
 
 `@Before` и `@After` являются самыми простыми рулами, вшитыми в ядро JUnit. Наравне с ними существуют рулы `@BeforeClass` и `@AfterClass`, которые работают аналогичным образом и вызываются для целого класса, а не для каждого метода:
 
@@ -99,24 +97,24 @@ public class SimpleTest {
 {% endhighlight %}
 
 Получим следующий результат:
-> before  
 
-> test  
-
-> test2  
-
-> after
+{% highlight java %}
+before
+test
+test2 
+after
+{% endhighlight %} 
 
 Заметим, что методы с `@BeforeClass` и `@AfterClass` должны быть статическими. 
 
-## Rules
+# Rules
 
-### Custom Rules
+## Custom Rules
 Допустим теперь мы хотим использовать предыдущий код (методы before и after) в других классах. 
 Вместо того, чтобы копировать методы целиком или выносить в отдельный базовый класс для каждого нового
 набора тестов, создадим собственную рулу.
 
-Рула представляет из себя класс, реализующий интерфейс `org.junit.rules.TestRule`. Для того, чтобы создать новую рулу необходимо реализовать метод apply, возвращающий объект типа `org.junit.runners.model.Statement`.
+Рула представляет из себя класс, реализующий интерфейс `org.junit.rules.TestRule`. Для того, чтобы создать новую рулу необходимо реализовать метод `apply`, возвращающий объект типа `org.junit.runners.model.Statement`.
 
 Далее, каждый индивидуальный вызов теста в JUnit представляет собой вызов метода `evaluate()` как раз этого объекта типа `Statement`. В руле мы просто оборачиваем выполнение теста (`base.evaluate()`) своим кодом:
 
@@ -162,27 +160,25 @@ public class SimpleTest {
 {% endhighlight %}
 
 Результат:
-> before  
 
-> test  
-
-> after  
-
-> before  
-
-> test2  
-
-> after
+{% highlight java %}
+before
+test
+after
+before
+test2 
+after
+{% endhighlight %} 
 
 
-### Base Rules
+## Base Rules
 
 * [External Resources](#external_r)
-  * [Temporary Folder](#tfolder)
+  - [Temporary Folder](#tfolder)
 * [Test Watcher](#watcher)
-  * [Test Name](#tname)
+  - [Test Name](#tname)
 * [Verifier](#verifier)
-  * [Error Collector](#ecollector)
+  - [Error Collector](#ecollector)
 * [Expected Exception](#expectedexcptn)
 * [Timeout](#timeout)
 * [Rule Chain](#rulechain)
@@ -191,7 +187,8 @@ public class SimpleTest {
 Самой популярной из них, как мне кажется, является `org.junit.rules.ExternalResource`:
 
 <a name="external_r"/>
-#### ExternalResource
+
+### ExternalResource
 
 Данную рулу предполагается использовать в тех случаях, когда подготовленные для тестирования данные нобходимо очистить (освободить) при любом исходе теста. Посмотрим как это реализовано:
 
@@ -210,8 +207,10 @@ public void evaluate() throws Throwable {
 Здесь выделим только метод evaluate, чтобы показать сходство с предыдущим примером. Методы
 `before()` и `after()` предполагается реализовать самому. В них и нужно описать управление своими данными. 
 
+
 <a name="tfolder"/>
-##### TemporaryFolder
+
+#### TemporaryFolder
 
 Рула `org.junit.rules.TemporaryFolder` является частным случаем ExternalResource, и позволяет создавать файлы и папки, которые гарантированно удалятся после завершения теста. Пример использования с сайта производителя:
 
@@ -230,21 +229,22 @@ public void testUsingTempFolder() throws IOException {
 {% endhighlight %}
 
 <a name="watcher"/>
-#### TestWatcher
 
-Следущая базовая рула `org.junit.rules.TestWatcher` не менее популярна и призвана добавить немного свободы в наши тесты, так как она (здесь я не буду привдить её реализацию) предоставляет возможность переопределить следующие методы:
+### TestWatcher
 
-> succeeded
+Следущая базовая рула `org.junit.rules.TestWatcher` не менее популярна и призвана добавить немного свободы в наши тесты, так как она (здесь я не буду приводить её реализацию) предоставляет возможность переопределить следующие методы:
 
-> failed
+{% highlight java %}
 
-> skipped
+protected void succeeded(Description description) {}  
+protected void failed(Description description) {}  
+protected void skipped(Description description) {}  
+protected void starting(Description description) {}  
+protected void finished(Description description) {}
 
-> starting
+{% endhighlight %}
 
-> finished
-
-По названиям методов можно догадаться, в какой момент они выполнятся, а именно: начало или конец теста, успешное или не успешное завершение.
+По названиям можно догадаться, в какой момент они выполнятся, а именно: начало или конец теста, успешное или не успешное завершение.
 
 TestWatcher отлично подходит для сбора информации о тесте, так как в каждый метод подаётся `org.junit.runner.Description`. При этом стоит быть осторожным с добавлением логики в эти методы, так как любое исключение будет обработано и напечатано только в конце теста:
 
@@ -273,16 +273,18 @@ public void test() {
 {% endhighlight %}
 
 В результате получим такой вывод
-> starting
 
-> test
-
-> finished
+{% highlight java %}
+starting
+test
+finished
+{% endhighlight %} 
 
 плюс сообщение об ошибке.
 
 <a name="tname"/>
-##### TestName
+
+#### TestName
 
 Простая для понимания рула `org.junit.rules.TestName` является наследником TestWatcher и позволяет использовать имя метода внутри него самого: 
 
@@ -301,7 +303,8 @@ public String getMethodName() {
 {% endhighlight %}
 
 <a name="verifaer"/>
-#### Verifier
+
+### Verifier
 
 Класс `org.junit.rules.Verifier` также как и ExternalResource является базовым классом, в котором предполагается реализовать один метод `verify()`:
 
@@ -316,10 +319,11 @@ public void evaluate() throws Throwable {
 {% endhighlight %}
 
 <a name="ecollector"/>
-##### ErrorCollector
+
+#### ErrorCollector
 
 Как пример использования Verifier рассмотрим рулу `org.junit.rules.ErrorCollector`, которая разрешает 
-"продолжить выполнение теста после первой ошибки". Использование этой рулы позволит, например, собрать все ошибки произошедшие в тесте в одном отчёте. Хотя при правильном формировнии тесткейсов (один тест - одна проверка) необходимости в такой руле нет. 
+"продолжить" выполнение теста после первой ошибки". Использование этой рулы позволит, например, собрать все ошибки произошедшие в тесте в одном отчёте. Хотя при правильном формировнии тесткейсов (один тест - одна проверка) необходимости в такой руле нет. 
 
 {% highlight java %}
 
@@ -338,7 +342,8 @@ public void example() {
 Метод `checkThat( ... )` является обёрткой для стандартной проверки `assertThat( ... )`, но в отличие от последнего не прерывает выполнение теста если проверка не прошла. Результатом такого кода будет отчёт, который содержит в себе ошибки первой и третьей проверки.
 
 <a name="expectedexcptn"/>
-#### ExpectedException
+
+### ExpectedException
 
 Проверка кода на предмет правильной работы в исключительных ситуациях является одной из важных задач в тестировании. В JUnit есть возможность проверить, что в процессе выполнения бросается нужное исключение:
 
@@ -369,9 +374,10 @@ public void throwsNullPointerExceptionWithMessage() {
 {% endhighlight %}
 
 <a name="timeout"/>
-#### Timeout
 
-Иногда встречаются тесты в которых кроме проверок основной функциональности требуется следить за продолжительностью их выполнения, и если тот или иной сценарий выполняется дольше заданного времени (ответ сервера, отрисовка веб страницы) нужно выдавать ошибку. В единичных случаях можно добавить timeout в аннотацию @Test:
+### Timeout
+
+Иногда встречаются тесты в которых кроме проверок основной функциональности требуется следить за продолжительностью их выполнения, и если тот или иной сценарий выполняется дольше заданного времени (ответ сервера, отрисовка веб страницы) нужно выдавать ошибку. В единичных случаях можно добавить timeout в аннотацию `@Test`:
 
 {% highlight java %}
 
@@ -403,11 +409,16 @@ public void test2() throws Exception {
 
 {% endhighlight %}
 
-Упадёт только второй тест с соответствующей ошибкой "test timed out after 1000 milliseconds".
+Упадёт только второй тест с соответствующей ошибкой 
+
+{% highlight java %}
+test timed out after 1000 milliseconds.
+{% endhighlight %}
 
 
 <a name="rulechain"/>
-#### RuleChain
+
+### RuleChain
 
 Если в тесте есть несколько рул, то вероятнее всего (на самом деле нет) они будут выполняться в том порядке, в котором встречаются в коде. В действительности, порядок, в котором они будут вызваны, зависит от реализации JVM.
 
@@ -449,22 +460,15 @@ public class SimplePrintRule extends TestWatcher {
 {% endhighlight %}
 
 В результате получим порядок:
-> starting log rule
 
-> starting connect rule
+{% highlight java %}
+starting log rule
+starting connect rule
+starting some other rule
+test
+finished some other rule
+finished connect rule
+finished log rule
+{% endhighlight %}
 
-> starting some other rule
-
-> test
-
-> finished some other rule
-
-> finished connect rule
-
-> finished log rule
-
-
-
-
-Подробней о рулах также можно узнать из репозитория проекта на гитхабе https://github.com/junit-team/junit
-
+Подробней о рулах также можно узнать из репозитория проекта на [гитхабе.](https://github.com/junit-team/junit/wiki/Rules)
