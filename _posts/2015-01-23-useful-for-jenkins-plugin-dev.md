@@ -7,7 +7,7 @@ author:
     email: lanwen+blog@yandex.ru
     gravatar: 6ee51971263d8c9a1e70e1dac7418d36
 categories: [jenkins]
-tags: [ci, jenkins, links]
+tags: [jenkins, links, jenkins plugin]
 comments: true
 published: true
 ---
