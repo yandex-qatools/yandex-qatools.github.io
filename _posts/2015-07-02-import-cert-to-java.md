@@ -19,7 +19,7 @@ published: true
 
 #### 1. Качаем сертификат хоста
 
-`$ openssl s_client -connect somehost-with-ssl:443 > host.crt`
+`$ openssl s_client -connect $DOMAIN_NAME:443 -showcerts </dev/null 2>/dev/null | openssl x509 -outform PEM | tee host.crt`
 
 (Можно на самом деле не писать в файлик, а работать со стандартным выводом на этом шаге)
 
@@ -27,9 +27,9 @@ published: true
 
 `echo -n | gnutls-cli --print-cert -p 443 somehost-with-ssl`
 
-#### 2. Заходим в файл host.crt
+#### 2. Редактируем в файл host.crt (для openssl необязательно)
 
-и удаляем все, что вокруг: 
+удаляем все, что вокруг: 
 `-----BEGIN CERTIFICATE-----`
  и 
 `-----END CERTIFICATE-----`
