@@ -27,7 +27,7 @@ published: true
 
 Информацию о базовых тегах, доступных в jenkins стоит искать здесь:
 
-- [Jelly Taglib Reference](https://jenkins-ci.org/maven-site/jenkins-core/jelly-taglib-ref.html)
+- [Jelly Taglib Reference](http://reports.jenkins.io/reports/core-taglib/jelly-taglib-ref.html)
 - [Stapler Taglib Reference](http://stapler.kohsuke.org/jelly-taglib-ref.html)
 - [Commons Jelly](http://commons.apache.org/proper/commons-jelly/tags.html)
 
